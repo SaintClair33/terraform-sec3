@@ -143,14 +143,13 @@ resource "aws_instance" "web_server" {                            # BLOCK
   }
 }
 
-resource "aws_s3_bucket" "my-new-S3-bucket" {
-bucket = "my-new-tf-test-bucket-mike828"
-tags = {
-Name = "My S3 Bucket"
-Purpose = "Intro to Resource Blocks Lab"
-}
-}
-resource "aws_s3_bucket_acl" "my_new_bucket_acl" {
-bucket = aws_s3_bucket.my-new-S3-bucket.id
-acl = "private"
+resource "aws_subnet" "variables-subnet" {
+  vpc_id                  = aws_vpc.vpc.id
+  cidr_block              = var.variables_sub_cidr
+  availability_zone       = var.variables_sub_az
+  map_public_ip_on_launch = var.variables_sub_auto_ip
+  tags = {
+    Name      = "sub-variables-${var.variables_sub_az}"
+    Terraform = "true"
+  }
 }
